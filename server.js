@@ -5,7 +5,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.'));
+app.use(express.static('.'));   // BẮT BUỘC PHẢI CÓ
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
