@@ -10,19 +10,33 @@ async function sendToGPT() {
   const data = await response.json();
 
   if (!data.result) {
-    alert("API lỗi hoặc chưa có OPENAI_API_KEY");
+    alert("Lỗi API hoặc thiếu OPENAI_API_KEY");
     return;
   }
 
-  await Excel.run(async (context) => {
-  const range = context.workbook.getSelectedRange();
-
+  // Tách CSV thành mảng 2 chiều
   const rows = data.result
-    .trim()
     .split("\n")
     .map(row => row.split(","));
 
-  range.getResizedRange(rows.length - 1, rows[0].length - 1).values = rows;
+  await Excel.run(async (context) => {
 
-  await context.sync();
-});
+    const sheet = context.workbook.worksheets.getActiveWorksheet();
+    const startCell = sheet.getSelectedRange();
+
+    const rowCount = rows.length;
+    const colCount = rows[0].length;
+
+    const targetRange = startCell.getResizedRange(rowCount - 1, colCount - 1);
+    targetRange.values = rows;
+
+    // Làm header đậm
+    const headerRange = targetRange.getRow(0);
+    headerRange.format.font.bold = true;
+
+    // Auto fit
+    targetRange.format.autofitColumns();
+
+    await context.sync();
+  });
+}
