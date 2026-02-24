@@ -22,5 +22,5 @@ app.post("/api/chat", async (req, res) => {
     result: completion.choices[0].message.content
   });
 });
-
+app.use(express.static('.'));
 app.listen(process.env.PORT || 3000);
