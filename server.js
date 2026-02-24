@@ -5,6 +5,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('.'));
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -22,5 +23,5 @@ app.post("/api/chat", async (req, res) => {
     result: completion.choices[0].message.content
   });
 });
-app.use(express.static('.'));
+
 app.listen(process.env.PORT || 3000);
