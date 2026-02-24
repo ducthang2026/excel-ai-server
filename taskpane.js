@@ -1,7 +1,7 @@
 async function sendToGPT() {
     const prompt = document.getElementById("prompt").value;
 
-    const response = await fetch("https://https://excel-ai-server.onrender.com/api/chat", {
+    const response = await fetch("https://excel-ai-server.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt })
