@@ -15,13 +15,12 @@ app.post("/api/chat", async (req, res) => {
   const { prompt } = req.body;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4.1-mini",
-    messages: [{ role: "user", content: prompt }],
-  });
-
-  res.json({
-    result: completion.choices[0].message.content
-  });
+  model: "gpt-4.1-mini",
+  messages: [
+    {
+      role: "system",
+      content: "Luôn trả về dữ liệu dạng CSV, không giải thích thêm."
+    },
+    { role: "user", content: prompt }
+  ],
 });
-
-app.listen(process.env.PORT || 3000);
